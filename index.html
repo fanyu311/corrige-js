@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let personnages = [
+        {
+            nom_complet: "Harry Potter",
+            age: 12,
+            moldu: false,
+            attaque: 8,
+            vie: 20
+        },
+        {
+            nom_complet: "Tom Jedusor",
+            age: 31,
+            moldu: false,
+            attaque: 16,
+            vie: 16
+        },
+        {
+            nom_complet: "Hermione Granger",
+            age: 12,
+            moldu: true,
+            attaque: 12,
+            vie: 20
+        },
+        {
+            nom_complet: "Albus Dumbledore",
+            age: 65,
+            moldu: false,
+            attaque: 14,
+            vie: 18
+        },
+    ];
+
+
+
+
+
+
+
+
+    // Exo 1: Trier les personnages par age et afficher la liste
+    let newAge = personnages.sort((a, b) => a.age - b.age);
+    console.log(newAge);
+
+    // personnages.sort(function (perso1, perso2) {
+    //     return perso1.age - perso2.age
+    // })
+    // console.log(personnages);
+
+    // Exo 2: Afficher dans la console une liste des personnes mineurs
+    //  for(let i = 0; i < personnages.length; i++){
+    //     // console.log(personnages[i].age)
+    //     if(personnages[i].age < 18) {
+    //         console.log(personnages[i]);
+    //     }
+    //    }
+
+    let mineures = personnages.filter((ages) => {
+        return ages.age < 18
+    })
+    console.log(mineures);
+
+
+    // Exo 3: Ajouter le nom et le prénom pour chaque utilisateur et afficher la liste de personnage
+    // Exo 4: En modifiant la fonction précedente et en utilisant la concatenation, ajouter les initials de chaque personnage
+    //   for(let i = 0; i < personnages.length; i++) {
+    //     const nom = " "
+    //     const prenom = ""
+    //     const newPersonnages = {
+    //         ...personnages[i], nom, prenom
+    //     }
+    //       console.log(newPersonnages)
+    // }
+
+    function formatage(perso) {
+        let prenomNom = perso.nom_complet.split(' ');
+        //console.log(prenomNom);
+        // 分成两个index之后，分别给他们安装到各自的名字里
+        perso.nom = prenomNom[1]
+        perso.prenom = prenomNom[0]
+        perso.initial = `${perso.nom[0]}.${perso.prenom[0]}`
+        return perso;
+    }
+    personnages.map(formatage)
+    console.log(personnages);
+
+
+
+
+
+    // Exo 5: Créer une fonction qui détermine le gagnant en simulant un combat entre 2 personnages (on renseignera le nom des personnages en paramètre de la fonction) et afficher les initials du gagnant
+
+    const combat = (nomPerso1, nomPerso2) => {
+        //On va copier le tableau des personnages
+        const tableauDeCombat = personnages.slice();
+        // on récupère l'objet du personnages
+        let perso1 = tableauDeCombat.filter((perso) => {
+            return perso.nom === nomPerso1
+        })
+        perso1 = perso1[0];
+        // on récupère l'objet du personnage 2
+        let perso2 = tableauDeCombat.filter((perso) => {
+            return perso.nom === nomPerso2
+        })
+        perso2 = perso2[0];
+        // personnage 1 attaque personnage 2 , puis l'inverse, jusq'a ce qe l'un a des points de vie inférieur ou égale à 0
+        // 首先一开始必须是null才能开始
+        let gagnant = null;
+
+        while (gagnant === null) {
+            // on enleve l'equivalent des points d'attaque du perso 1 au points de vie du perso 2
+            perso2.vie = perso2.vie - perso1.attaque;
+            // on regarde si le perso 2 est à terre
+            if (perso2.vie <= 0) {
+                gagnant = perso1;
+                break;
+            }
+            // on enleve l'equivalent des points d'attaque du perso 1 au points de vie du perso 1
+            perso1.vie = perso1.vie - perso2.attaque;
+            // on regarde si le perso 1 est à terre
+            if (perso1.vie <= 0) {
+                gagnant = perso2;
+                break;
+            }
+
+        }
+        console.log(`Le gagnant est : ${gagnant.initial}`);
+
+    }
+    combat('Potter', 'Granger')
+    // Faire un combat entre Harry contre Hermione, Dumbledore contre Tom et enfin Harry contre Tom
+    // Exo 6: Ajouter dans la console les actions tour par tour (attaque) ainsi que les points de vie restant à la personne attaqué
+
+    // Exo 7: Ron Weasley était en retard, ajouter le dans la liste et simuler un combat contre Harry, puis Hermione. 
+    // PS: Ron a 12 ans, n'est pas moldu, attaque à 4 points mais possède 22 points de vie
+
+    let ron = {
+        nom_complet: "Ron Weasley",
+        age: 12,
+        moldu: false,
+        attaque: 4,
+        vie: 22
+    }
+
+    let ronFormatee = formatage(ron);
+    personnages.push(ronFormatee);
+    combat('Weasley', 'potter')
+
+
+
+
+
+
+
+
+
+
+
+
+// Exo 8: Dans un tournoi où chacun combat contre les autres qui aura le plus de victoire
+</script>
+
+</html>
